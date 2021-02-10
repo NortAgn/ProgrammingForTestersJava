@@ -10,9 +10,7 @@ public class ContactHelper extends BaseHelper{
     super(wd);
   }
 
-  public void returnToHomePage() {
-    click(By.linkText("home page"));
-  }
+  public void returnToHomePage() { click(By.linkText("home page")); }
 
   public void submitContactCreation() {
     click(By.xpath("(//input[@name='submit'])[2]"));
@@ -31,8 +29,9 @@ public class ContactHelper extends BaseHelper{
     wd.findElement(locator).sendKeys(text);
   }
 
-  public void goToAddNewContact() {
+  public void goToAddNewContact() { click(By.linkText("add new")); }
 
-    click(By.linkText("add new"));
-  }
+  public void initContactModification() { click(By.xpath("(//img[@alt='Edit'])[2]"));}
+
+  public void updateContactForm() { click(By.xpath("(//input[@name='update'])[2]"));}
 }
