@@ -5,14 +5,13 @@ import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 
 public class ContactModificationTests extends TestBase {
 
   @Test
   public void testContactModification() {
-    app.getNavigationHelper().gotoHomePage();
+    app.goTo().gotoHomePage();
     if (!app.getContactHelper().isThereAContact()){
       app.getContactHelper().createContact(new ContactData(
               "Agnia", "Khay", "89276839311",
@@ -20,8 +19,7 @@ public class ContactModificationTests extends TestBase {
       );
     }
     List<ContactData> before = app.getContactHelper().getContactList();
-    app.getContactHelper().chooseContact(before.size()- 1);
-    app.getContactHelper().initContactModification();
+    app.getContactHelper().initContactModification(before.size()- 1);
 
     ContactData contactData = new ContactData(before.get(before.size()- 1) .getId(),
             "Agnia", "Khay", "89276839391",

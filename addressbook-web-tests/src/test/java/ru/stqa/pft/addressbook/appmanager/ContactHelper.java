@@ -47,8 +47,8 @@ public class ContactHelper extends BaseHelper {
     click(By.linkText("add new"));
   }
 
-  public void initContactModification() {
-    click(By.xpath("//img[@alt='Edit']"));
+  public void initContactModification(int index) {
+    wd.findElements(By.xpath("//img[@alt='Edit']")).get(index).click();
   }
 
   public void updateContactForm() {
@@ -81,6 +81,7 @@ public class ContactHelper extends BaseHelper {
 
   public int getContactCount() {
     return wd.findElements(By.name("selected[]")).size();
+    //return wd.findElements(By.xpath("//img[@alt='Edit']")).size();
   }
 
   public List<ContactData> getContactList() {
