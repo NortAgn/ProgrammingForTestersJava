@@ -3,6 +3,8 @@ package ru.stqa.pft.addressbook.appmanager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
 
@@ -37,13 +39,16 @@ public class ContactHelper extends BaseHelper {
     attach(By.name("photo"), contactData.getPhoto());
 
 
-//    if (creation){
-//    new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroup());
-//    }else{
-//    Assert.assertFalse((isElementPresent(By.name("new_group"))));
-//    }
+    if (creation){
+      if (contactData.getGroups().size() > 0){
+        Assert.assertTrue(contactData.getGroups().size() == 1);
+        new Select(wd.findElement(By.name("new_group"))).selectByVisibleText(contactData.getGroups().iterator().
+                next().getName());
+      }
+    }else{
+    Assert.assertFalse((isElementPresent(By.name("new_group"))));
+    }
   }
-
 
   public void type(By locator, String text) {
     wd.findElement(locator).click();
@@ -180,6 +185,21 @@ public class ContactHelper extends BaseHelper {
     //wd.findElement(By.xpath(String.format("//tr[.//input[@value='%s']]/td[8]/a",id))).click();
     //wd.findElement(By.cssSelector(String.format("a[href='edit.php?id=%s']",id))).click();
 
+  }
+
+  public void chooseGroupFilter(String groupName) {
+    WebElement group = wd.findElement(By.name("group"));
+    new Select(group).selectByVisibleText(groupName);
+  }
+
+  public void addToGroup(String groupName) {
+    WebElement toGroup = wd.findElement(By.name("to_group"));
+    new Select(toGroup).selectByVisibleText(groupName);
+    wd.findElement(By.name("add")).click();
+  }
+
+  public void removeFromGroup(String groupName) {
+    wd.findElement(By.name("remove")).click();
   }
 }
 

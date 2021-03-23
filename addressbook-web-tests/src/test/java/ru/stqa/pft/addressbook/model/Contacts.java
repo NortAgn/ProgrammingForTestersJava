@@ -34,10 +34,16 @@ public class Contacts extends ForwardingSet<ContactData> {
     return contacts;
   }
 
-
   public Contacts without(ContactData contact) {
     Contacts contacts = new Contacts(this);
     contacts.remove(contact);
     return contacts;
+  }
+
+  public ContactData findByName(String contactName) {
+    return stream()
+            .filter(contactData -> contactName.equals(contactData.getFirstname()))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(String.format("Contact wit name '%s' not found", contactName)));
   }
 }

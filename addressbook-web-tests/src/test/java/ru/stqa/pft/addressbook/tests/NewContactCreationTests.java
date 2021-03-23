@@ -6,6 +6,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import ru.stqa.pft.addressbook.model.ContactData;
 import ru.stqa.pft.addressbook.model.Contacts;
+import ru.stqa.pft.addressbook.model.Groups;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,9 +15,6 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
 
 public class NewContactCreationTests extends TestBase {
 
@@ -37,19 +35,19 @@ public class NewContactCreationTests extends TestBase {
   }
 
 //(dataProvider = "validContactsFromJson")
-  @Test
-  public void testNewContactCreation() throws Exception {
-   File photo = new File("src/test/resources/girl.png");
-    Contacts before = app.db().contacts();
-   ContactData contact = new ContactData().withFirstname("Agnia").withLastname("Khay")
-            .withMobilePhone("89274916958").withWorkPhone("896").withHomePhone("0500")
-            .withEmail("agnesnort@gmail.com").withPhoto(photo).withFax("9632-98");
-    app.contact().create(contact);
-    Contacts after = app.db().contacts();
-    assertThat(after.size(), equalTo(before.size() + 1));
-    assertThat(after, equalTo(before.withAdded(
-            contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
-  }
+//  @Test
+//  public void testNewContactCreation() throws Exception {
+//   File photo = new File("src/test/resources/girl.png");
+//   Contacts before = app.db().contacts();
+//   ContactData contact = new ContactData().withFirstname("Agnia").withLastname("Khay")
+//            .withMobilePhone("89274916958").withWorkPhone("896").withHomePhone("0500")
+//            .withEmail("agnesnort@gmail.com").withPhoto(photo).withFax("9632-98");
+//    app.contact().create(contact);
+//    Contacts after = app.db().contacts();
+//    assertThat(after.size(), equalTo(before.size() + 1));
+//    assertThat(after, equalTo(before.withAdded(
+//            contact.withId(after.stream().mapToInt((c) -> c.getId()).max().getAsInt()))));
+//  }
 
 //  @Test
 //  public void testCurrentDir(){
@@ -59,4 +57,19 @@ public class NewContactCreationTests extends TestBase {
 //    System.out.println(photo.getAbsolutePath());
 //    System.out.println(photo.exists());
 //  }
+
+  @Test
+  public void testNewContactCreation() throws Exception {
+    Groups groups = app.db().groups();
+    File photo = new File("src/test/resources/girl.png");
+    ContactData newContact = new ContactData().withFirstname("Anna").withLastname("Khan")
+            .withMobilePhone("89274916958").withWorkPhone("896").withHomePhone("0500")
+            .withEmail("agnesnort@gmail.com").withPhoto(photo).withFax("9632-98")
+            .inGroup(groups.iterator().next());
+    app.contact().goToAddNewContact();
+    app.contact().fillContactForm(newContact, true);
+    app.contact().submitContactCreation();
+    app.contact().returnToHomePage();
+    Contacts after = app.db().contacts();
+  }
 }
