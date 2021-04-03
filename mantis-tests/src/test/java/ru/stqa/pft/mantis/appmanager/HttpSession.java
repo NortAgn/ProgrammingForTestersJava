@@ -54,6 +54,6 @@ public class HttpSession {
 
   private boolean containsUsernameINUserInfo(String username, String body) {
 //    return body.contains(String.format("<span class=\"user-info\">%s</span>", username));
-    return body.contains(String.format("<span class=\"label hidden-xs label-default arrowed\">%s</span>", username));
+    return body.contains(String.format("<a href=\"/mantisbt-2.25.0/account_page.php\">%s</a>", username));
   }
 }
